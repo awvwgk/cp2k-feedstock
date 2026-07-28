@@ -16,12 +16,10 @@ fortran_compiler:
 - gfortran
 fortran_compiler_version:
 - '14'
-hdf5:
-- '2'
-libxsmm:
-- '1'
+libboost_python_devel:
+- '1.88'
 mpi:
-- openmpi
+- mpich
 mpich:
 - '5'
 openmpi:
@@ -32,3 +30,5 @@ zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
   - fortran_compiler_version
+zlib:
+- '1'

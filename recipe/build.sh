@@ -2,29 +2,27 @@
 set -ex
 
 if [[ "${mpi}" == "openmpi" ]]; then
-  CP2K_USE_ELPA="ON"
   export OMPI_ALLOW_RUN_AS_ROOT=1
   export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
   export OMPI_MCA_plm_rsh_agent=/bin/false
-else
-  CP2K_USE_ELPA="OFF"
 fi
 
 # Build CP2K
-export PKG_CONFIG_PATH="${PREFIX}/lib:${PKG_CONFIG_PATH}"
 cmake -B build -S . \
   ${CMAKE_ARGS} \
+  -DCMAKE_INSTALL_LIBDIR="${PREFIX}/lib" \
   -DCP2K_BLAS_VENDOR="OpenBLAS" \
-  -DCP2K_USE_COSMA="ON" \
   -DCP2K_USE_EVERYTHING="OFF" \
+  -DCP2K_USE_COSMA="ON" \
   -DCP2K_USE_DFTD4="OFF" \
-  -DCP2K_USE_ELPA="${CP2K_USE_ELPA}" \
+  -DCP2K_USE_ELPA="OFF" \
   -DCP2K_USE_FFTW3="ON" \
   -DCP2K_USE_HDF5="ON" \
   -DCP2K_USE_LIBINT2="ON" \
   -DCP2K_USE_LIBTORCH="ON" \
   -DCP2K_USE_LIBXC="ON" \
-  -DCP2K_USE_LIBXSMM="ON" \
+  -DCP2K_USE_LIBXS="ON" \
+  -DCP2K_USE_LIBXSMM="OFF" \
   -DCP2K_USE_MPI="ON" \
   -DCP2K_USE_MPI_F08="ON" \
   -DCP2K_USE_PLUMED="ON" \
@@ -36,6 +34,7 @@ cmake -B build -S . \
   -GNinja
 cmake --build build --parallel "${CPU_COUNT}"
 cmake --install build
+
 ln -sf cp2k.psmp "${PREFIX}/bin/cp2k.popt"
 ln -sf cp2k.psmp "${PREFIX}/bin/cp2k"
 
