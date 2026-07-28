@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: cp2k
-  version: "2026.1"
+  version: "2026.2"
   mpi_prefix: "mpi_${{ mpi }}"
 
 package:
@@ -11,15 +11,16 @@ package:
 
 source:
   - url: https://github.com/${{ name }}/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.bz2
-    sha256: 4364c74bcffaa474bc234e11686b09550e4d06932acf2147a341e4f7679dd88e
+    sha256: f9bd86f580f57a53a0768c0045d1417f9f9a1d66d851ed7f662f496200043373
 
 build:
-  number: 14
+  number: 0
   script: build.sh
   string: mpi_${{ mpi }}_h${{ hash }}_${{ build_number }}
   skip:
-    - if: aarch64 or osx or win
-      then: true
+    - aarch64
+    - osx
+    - win
 
 requirements:
   build:
@@ -32,38 +33,41 @@ requirements:
     - pkg-config
   host:
     - ${{ mpi }}
-    - "cosma-scalapack * *${{ mpi_prefix }}_*"
-    - "dbcsr >=2.9 *${{ mpi_prefix }}_*"
+    - boost
+    - "cosma-scalapack >=2.8 *${{ mpi_prefix }}_*"
+    - "dbcsr >=2.10 *${{ mpi_prefix }}_*"
+    - eigen
+#   - "elpa >=2025.06.001 *${{ mpi_prefix }}_*"
     - "fftw * *${{ mpi_prefix }}_*"
-    - hdf5
+    - "hdf5 * *${{ mpi_prefix }}_*"
     - libint
     - libint-fortran-devel
-    - "libtorch >=2.7.1 *cpu_generic_*"
-    - "libxc >=7.0.0 *cpu_*"
-    - libxsmm
+    - "libtorch >=2.12 *cpu_generic_*"
+    - "libxc >=7.0 *cpu_*"
+    - libxs >=1.0
     - "openblas * *openmp_*"
-    - "plumed >=2.9.2 *${{ mpi_prefix }}_*"
+    - "plumed >=2.10 *${{ mpi_prefix }}_*"
     - scalapack
-    - "sirius * *${{ mpi_prefix }}_*"
-    - "spfft * ${{ mpi_prefix }}_*"
-    - "spla * ${{ mpi_prefix }}_*"
-    - spglib
+    - "sirius >=7.11 *${{ mpi_prefix }}_*"
+    - "spfft >=1.1 ${{ mpi_prefix }}_*"
+    - "spla >=1.6 ${{ mpi_prefix }}_*"
+    - spglib >=2.7
 #   - tblite
-    - trexio
-    - if: mpi == "openmpi"
-      then:
-        - "elpa >=2024.05.001 *${{ mpi_prefix }}_*"
+    - trexio >=2.5
+    - zlib
   run:
     - ${{ mpi }}
-    - "cosma-scalapack * *${{ mpi_prefix }}_*"
-    - "dbcsr >=2.9 *${{ mpi_prefix }}_*"
-    - "fftw * *${{ mpi_prefix }}_*"
-    - "libtorch >=2.7.1 *cpu_generic_*"
+    - "cosma-scalapack >=2.8 *${{ mpi_prefix }}_*"
+    - "dbcsr >=2.10 *${{ mpi_prefix }}_*"
+    - "fftw >=3.3 *${{ mpi_prefix }}_*"
+    - "hdf5 * *${{ mpi_prefix }}_*"
+    - "libtorch >=2.12 *cpu_generic_*"
+    - libxs >=1.0
     - "openblas * *openmp_*"
-    - "plumed >=2.9.2 *${{ mpi_prefix }}_*"
-    - "sirius * *${{ mpi_prefix }}_*"
-    - "spfft * ${{ mpi_prefix }}_*"
-    - "spla * ${{ mpi_prefix }}_*"
+    - "plumed >=2.10 *${{ mpi_prefix }}_*"
+    - "sirius >=7.11 *${{ mpi_prefix }}_*"
+    - "spfft >=1.1 ${{ mpi_prefix }}_*"
+    - "spla >=1.6 ${{ mpi_prefix }}_*"
 
 tests:
   - package_contents:
@@ -71,6 +75,8 @@ tests:
         - cp2k.psmp
         - cp2k.popt
         - cp2k
+      lib:
+        - libcp2k
   - script:
       - cp2k -h
 

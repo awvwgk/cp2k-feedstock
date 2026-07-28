@@ -16,10 +16,6 @@ fortran_compiler:
 - gfortran
 fortran_compiler_version:
 - '14'
-hdf5:
-- '2'
-libxsmm:
-- '1'
 mpi:
 - openmpi
 mpich:
@@ -32,3 +28,5 @@ zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
   - fortran_compiler_version
+zlib:
+- '1'
