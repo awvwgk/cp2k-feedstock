@@ -33,11 +33,11 @@ requirements:
     - pkg-config
   host:
     - ${{ mpi }}
-    - boost
+    - libboost-python-devel
     - "cosma-scalapack >=2.8 *${{ mpi_prefix }}_*"
     - "dbcsr >=2.10 *${{ mpi_prefix }}_*"
     - eigen
-#   - "elpa >=2025.06.001 *${{ mpi_prefix }}_*"
+    # "elpa >=2025.06.001 *${{ mpi_prefix }}_*"
     - "fftw * *${{ mpi_prefix }}_*"
     - "hdf5 * *${{ mpi_prefix }}_*"
     - libint
@@ -52,7 +52,7 @@ requirements:
     - "spfft >=1.1 ${{ mpi_prefix }}_*"
     - "spla >=1.6 ${{ mpi_prefix }}_*"
     - spglib >=2.7
-#   - tblite
+    # tblite
     - trexio >=2.5
     - zlib
   run:
