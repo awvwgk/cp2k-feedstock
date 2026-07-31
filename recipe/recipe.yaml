@@ -14,7 +14,7 @@ source:
     sha256: f9bd86f580f57a53a0768c0045d1417f9f9a1d66d851ed7f662f496200043373
 
 build:
-  number: 0
+  number: 1
   script: build.sh
   string: mpi_${{ mpi }}_h${{ hash }}_${{ build_number }}
   skip:
@@ -44,7 +44,8 @@ requirements:
     - libint-fortran-devel
     - "libtorch >=2.12 *cpu_generic_*"
     - "libxc >=7.0 *cpu_*"
-    - libxs >=1.0
+    - "libxs ==1.0.0"
+    - "libxsmm ==2.0.0"
     - "openblas * *openmp_*"
     - "plumed >=2.10 *${{ mpi_prefix }}_*"
     - scalapack
@@ -62,12 +63,14 @@ requirements:
     - "fftw >=3.3 *${{ mpi_prefix }}_*"
     - "hdf5 * *${{ mpi_prefix }}_*"
     - "libtorch >=2.12 *cpu_generic_*"
-    - libxs >=1.0
+    - "libxs ==1.0.0"
+    - "libxsmm ==2.0.0"
     - "openblas * *openmp_*"
     - "plumed >=2.10 *${{ mpi_prefix }}_*"
     - "sirius >=7.11 *${{ mpi_prefix }}_*"
     - "spfft >=1.1 ${{ mpi_prefix }}_*"
     - "spla >=1.6 ${{ mpi_prefix }}_*"
+    - trexio >=2.5
 
 tests:
   - package_contents:
